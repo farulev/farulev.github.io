@@ -2,7 +2,8 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--fg);font:400 16px/1.65 Montserrat,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-img{max-width:100%;display:block}
+img{max-width:100%;height:auto;display:block}
+video{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 a:hover{color:var(--acc2)}
 .skip{position:absolute;left:-999px;top:0;background:var(--acc);color:#000;padding:8px 12px;z-index:100}.skip:focus{left:8px}
@@ -47,7 +48,7 @@ p{color:#d8d4cf}
 .platforms a:hover{border-color:var(--acc)}
 /* video facade */
 .yt{position:relative;aspect-ratio:16/9;background:#000;cursor:pointer;overflow:hidden;width:100%;border:0;padding:0;display:block;color:#fff}
-.yt img{width:100%;height:100%;object-fit:cover;opacity:.85;transition:.3s}
+.yt img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;opacity:.85;transition:.3s}
 .yt:hover img{opacity:1;transform:scale(1.02)}
 .yt .play{position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:rgba(0,0,0,.6);border:1.5px solid #fff;display:grid;place-items:center}
 .yt .play:before{content:"";border-style:solid;border-width:10px 0 10px 17px;border-color:transparent transparent transparent #fff;margin-left:4px}
@@ -78,6 +79,8 @@ p{color:#d8d4cf}
 @media(min-width:800px){.ev{grid-template-columns:180px 1fr 1fr;align-items:center}}
 /* about */
 .about-grid{display:grid;gap:36px}
+.about-grid .ph{position:relative;width:100%;aspect-ratio:4/5;overflow:hidden;background:#111}
+.about-grid .ph img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 18%;display:block}
 @media(min-width:900px){.about-grid{grid-template-columns:5fr 6fr;gap:56px;align-items:start}.about-grid .ph{position:sticky;top:100px}}
 .about-grid p{margin-bottom:16px}
 details{margin-top:8px;border-top:1px solid var(--line);padding-top:16px}
@@ -95,10 +98,21 @@ summary{cursor:pointer;font-size:12px;letter-spacing:.22em;text-transform:upperc
 .card{border:1px solid var(--line);padding:24px;background:var(--bg2)}
 .card .n{color:var(--acc);font-size:12px;letter-spacing:.2em;margin-bottom:12px;display:block}
 .card p{font-size:14px}
-.research-top{display:grid;gap:30px}
-@media(min-width:900px){.research-top{grid-template-columns:1fr 1fr;align-items:center;gap:56px}}
-.research-top .imgs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.research-top .imgs img{aspect-ratio:3/4;object-fit:cover;width:100%}
+/* Mobile: photo, text, photo, text — full-width 4:5, no narrow columns.
+   Desktop: text left, two portraits side by side on the right. */
+.research-top{display:flex;flex-direction:column;gap:22px}
+.research-top .rph{position:relative;width:100%;aspect-ratio:4/5;overflow:hidden;background:#111;margin:0}
+.research-top .rph img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 18%;display:block}
+.research-top .rs-gh{margin:0}
+@media(min-width:900px){
+  .research-top{display:grid;grid-template-columns:1.15fr .9fr .9fr;grid-template-rows:auto auto auto;column-gap:18px;row-gap:18px;align-items:center}
+  .research-top .lede{grid-column:1;grid-row:1}
+  .research-top .rs-p{grid-column:1;grid-row:2}
+  .research-top .rs-gh{grid-column:1;grid-row:3;align-self:start}
+  .research-top .rph-a{grid-column:2;grid-row:1 / span 3;align-self:stretch}
+  .research-top .rph-b{grid-column:3;grid-row:1 / span 3;align-self:stretch}
+  .research-top .rph{aspect-ratio:auto;min-height:420px}
+}
 .lede{font-size:clamp(20px,2.6vw,28px);font-weight:300;line-height:1.4;color:#fff;margin-bottom:18px}
 /* quotes */
 .quotes{display:grid;gap:18px}
@@ -200,8 +214,11 @@ body{padding-bottom:48px}
 html[lang=ko] body{font-family:Montserrat,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;word-break:keep-all}
 @media(min-width:640px){.vgrid.vlead>.v:first-child{grid-column:1/-1}}
 @media(min-width:1100px){.vgrid.vlead{grid-template-columns:2fr 1fr 1fr;align-items:start}.vgrid.vlead>.v:first-child{grid-column:auto;grid-row:span 2}}
-.sv{position:relative;aspect-ratio:16/9;background:#000;overflow:hidden}
-.sv video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;display:block}
+.sv{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden}
+.sv video,.sv .poster{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:contain;object-position:center;background:#000;display:block}
+.sv video{z-index:1}
+.sv .poster{z-index:2}
+.sv.on .poster{display:none}
 .vcap .alt{display:inline-block;margin-left:6px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut,#9a948d);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18)}
 .vcap .alt:hover{color:#fff}
 .fmt .vcap,.bv .vcap{margin:8px 0 0}
@@ -211,3 +228,38 @@ html[lang=ko] body{font-family:Montserrat,"Noto Sans KR","Apple SD Gothic Neo","
 .svp:hover .play{background:rgba(201,143,82,.85);transform:scale(1.06)}
 .sv.on .svp{display:none}
 .sv video{opacity:.92;transition:opacity .3s}.sv:hover video,.sv.on video{opacity:1}
+
+/* Simplified Chinese typography */
+html[lang=zh-CN] body,html[lang=zh] body{font-family:Montserrat,"Noto Sans SC","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",system-ui,sans-serif;word-break:keep-all}
+html[lang=zh-CN] h2,html[lang=zh] h2,
+html[lang=zh-CN] h3,html[lang=zh] h3,
+html[lang=zh-CN] .kicker,html[lang=zh] .kicker,
+html[lang=zh-CN] .venues li,html[lang=zh] .venues li,
+html[lang=zh-CN] .vcap b,html[lang=zh] .vcap b,
+html[lang=zh-CN] summary,html[lang=zh] summary,
+html[lang=zh-CN] .btn,html[lang=zh] .btn,
+html[lang=zh-CN] .hero .role,html[lang=zh] .hero .role,
+html[lang=zh-CN] .mini a,html[lang=zh] .mini a,
+html[lang=zh-CN] .mbar a,html[lang=zh] .mbar a{letter-spacing:.06em;text-transform:none}
+html[lang=zh-CN] .tab,html[lang=zh] .tab{font-family:Montserrat,"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:.08em;text-transform:none}
+html[lang=zh-CN] .hero blockquote,html[lang=zh] .hero blockquote,
+html[lang=zh-CN] .quotes blockquote,html[lang=zh] .quotes blockquote{font-style:normal;letter-spacing:.04em;line-height:1.6}
+html[lang=zh-CN] .hero h1,html[lang=zh] .hero h1{letter-spacing:.18em}
+.hero .tagline{font-size:15px;font-weight:300;color:#cfcac4;max-width:560px;margin:-10px 0 28px;letter-spacing:.04em;line-height:1.7}
+.follow{background:#0d0d0d}
+.qr-grid{display:grid;gap:28px;margin-top:8px}
+@media(min-width:800px){.qr-grid{grid-template-columns:1fr 1fr;gap:40px;max-width:840px}}
+.qr-grid figure{margin:0;border:1px solid var(--line);background:var(--bg2);padding:22px 22px 20px;text-align:center}
+.qr-grid img{width:100%;max-width:320px;height:auto;margin:0 auto}
+.qr-grid figcaption{margin-top:14px}
+.qr-grid figcaption b{display:block;font-size:14px;letter-spacing:.14em;margin-bottom:4px}
+.qr-grid figcaption span{font-size:13px;color:var(--mut)}
+html[lang=zh-CN] .qr-grid figcaption b,html[lang=zh] .qr-grid figcaption b{letter-spacing:.12em;text-transform:none}
+.qr-grid figcaption small.old-acc{display:block;margin-top:10px;font-size:12px;color:var(--mut);letter-spacing:.02em;line-height:1.55;font-weight:400;max-width:280px;margin-left:auto;margin-right:auto}
+
+.qr-archive{max-width:240px;margin:32px auto 0;border:1px solid var(--line);background:var(--bg2);padding:16px 16px 14px;text-align:center}
+.qr-archive img{width:100%;max-width:168px;height:auto;margin:0 auto;opacity:.95}
+.qr-archive figcaption{margin-top:10px}
+.qr-archive figcaption b{display:block;font-size:12px;letter-spacing:.08em;margin-bottom:3px;color:#ddd}
+.qr-archive figcaption span{font-size:12px;color:var(--mut)}
+.qr-grid figcaption small.old-acc,.qr-archive small.old-acc{display:block;margin-top:8px;font-size:12px;color:var(--mut);letter-spacing:.02em;line-height:1.55;font-weight:400}

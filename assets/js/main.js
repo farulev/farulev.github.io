@@ -15,8 +15,15 @@
     },{once:true});
   });
   // Self-hosted videos: only one plays at a time
-  document.querySelectorAll('.sv').forEach(function(w){var v=w.querySelector('video'),b=w.querySelector('.svp');v.controls=false;
-    b.addEventListener('click',function(){w.classList.add('on');v.controls=true;v.play()});v.addEventListener('play',function(){w.classList.add('on');v.controls=true})});
+  document.querySelectorAll('.sv').forEach(function(w){
+    var v=w.querySelector('video'),b=w.querySelector('.svp');
+    if(!v) return;
+    v.controls=false;
+    function start(){w.classList.add('on');v.controls=true;v.play()}
+    if(b) b.addEventListener('click',start);
+    v.addEventListener('play',function(){w.classList.add('on');v.controls=true});
+    v.addEventListener('ended',function(){w.classList.remove('on');v.controls=false;v.currentTime=0});
+  });
   var vs=document.querySelectorAll('.sv video');vs.forEach(function(v){v.addEventListener('play',function(){vs.forEach(function(o){if(o!==v)o.pause()})})});
   // Video tabs
   document.querySelectorAll('.tab').forEach(function(b){b.addEventListener('click',function(){
