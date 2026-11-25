@@ -40,7 +40,6 @@ p{color:#d8d4cf}
 .hero-slide.hs-vr img{object-position:50% 32%}
 .hero-slide.hs-gold img{object-position:50% 20%}
 .hero-slide.hs-candles img{object-position:50% 25%}
-.hero-slide.hs-hall img{object-position:30% 32%}
 .hero-slide.hs-glow img{object-position:50% 25%}
 .hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,.12) 30%,rgba(0,0,0,.45) 62%,#0a0a0a 100%);z-index:2;pointer-events:none}
 .hero-in{position:relative;z-index:3;width:100%;padding:0 20px 72px}
@@ -54,7 +53,6 @@ p{color:#d8d4cf}
   .hero-slide.hs-vr img{object-position:50% 28%}
   .hero-slide.hs-gold img{object-position:55% 22%}
   .hero-slide.hs-candles img{object-position:50% 28%}
-  .hero-slide.hs-hall img{object-position:32% 35%}
   .hero-slide.hs-glow img{object-position:50% 28%}
   .hero-in{padding:0 64px;max-width:1440px;margin:0 auto}
   .hero:after{background:linear-gradient(90deg,#0b0b0b 0%,#0b0b0b 34%,rgba(11,11,11,.55) 50%,rgba(11,11,11,0) 66%),linear-gradient(180deg,rgba(0,0,0,.28) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 78%,#0a0a0a 100%)}
