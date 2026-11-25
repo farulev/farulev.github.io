@@ -312,6 +312,13 @@ html[lang=zh-CN] .mbar a,html[lang=zh] .mbar a{letter-spacing:.06em;text-transfo
 html[lang=zh-CN] .tab,html[lang=zh] .tab{font-family:Montserrat,"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:.08em;text-transform:none}
 html[lang=zh-CN] .hero blockquote,html[lang=zh] .hero blockquote,
 html[lang=zh-CN] .hero h1,html[lang=zh] .hero h1{letter-spacing:.18em}
+
+/* ZH: word-break:keep-all makes long CJK clauses inflate .fmts min-content and overflow on narrow phones */
+html[lang=zh] .fmts,html[lang=zh-CN] .fmts{grid-template-columns:minmax(0,1fr)}
+html[lang=zh] .fmt,html[lang=zh-CN] .fmt{min-width:0;max-width:100%}
+html[lang=zh] .fmt .v,html[lang=zh] .fmt .sv,html[lang=zh] .fmt .fb,html[lang=zh] .fmt h3,html[lang=zh] .fmt p,
+html[lang=zh-CN] .fmt .v,html[lang=zh-CN] .fmt .sv,html[lang=zh-CN] .fmt .fb,html[lang=zh-CN] .fmt h3,html[lang=zh-CN] .fmt p{min-width:0;max-width:100%}
+html[lang=zh] .fmt h3,html[lang=zh] .fmt p,html[lang=zh-CN] .fmt h3,html[lang=zh-CN] .fmt p{overflow-wrap:anywhere;word-break:normal}
 .hero .tagline{font-size:15px;font-weight:300;color:#cfcac4;max-width:560px;margin:-10px 0 28px;letter-spacing:.04em;line-height:1.7}
 .follow{background:#0d0d0d}
 .qr-grid{display:grid;gap:28px;margin-top:8px}
