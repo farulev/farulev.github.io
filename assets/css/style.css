@@ -187,19 +187,19 @@ footer p{font-size:12px;color:var(--mut)}
 .lead{max-width:680px;margin:-14px 0 34px;font-size:17px}
 .book{background:linear-gradient(180deg,#0a0a0a,#100d0a 50%,#0a0a0a)}
 .fmts{display:grid;gap:20px}
-@media(min-width:900px){.fmts{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.fmts{grid-template-columns:repeat(6,1fr)}.fmts .fmt:nth-child(-n+3){grid-column:span 2}.fmts .fmt:nth-child(n+4){grid-column:span 3}}
 .fmt{border:1px solid var(--line);background:var(--bg2);display:flex;flex-direction:column}
 .fmt .fb{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}
 .fmt .fb p{font-size:14px;flex:1}
 .fmt .n,.card .n{color:var(--acc);font-size:12px;letter-spacing:.2em}
-.fmt .btn{align-self:flex-start}
+.fmt .fmt-ctas{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}.fmt .btn{align-self:flex-start}
 .bang{display:grid;gap:26px;margin:22px 0;border:1px solid #3a2f24;background:#120f0c;padding:0;align-items:center}
 @media(min-width:900px){.bang{grid-template-columns:1.5fr 1fr}}
 .bang .bt{padding:24px 26px 30px}
 .bang .bh{font-size:clamp(30px,4vw,46px);font-weight:200;letter-spacing:.2em;margin:0 0 12px}
 .bang .small{margin:10px 0 22px}
 .minis{display:grid;gap:16px;margin-top:6px}
-@media(min-width:800px){.minis{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:800px){.minis{grid-template-columns:repeat(2,1fr)}}
 .mini{border-top:1px solid var(--acc);padding-top:16px}
 .mini p{font-size:14px;margin-bottom:10px}
 .mini a{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--acc2);font-weight:600}
