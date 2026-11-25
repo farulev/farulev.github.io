@@ -79,11 +79,11 @@ p{color:#d8d4cf}
 @media(min-width:1100px){.vgrid{grid-template-columns:repeat(4,1fr)}.vgrid.three{grid-template-columns:repeat(3,1fr)}}
 .vcap{font-size:13px;letter-spacing:.06em;margin-top:10px;color:#cfcac4}
 .vcap b{display:block;color:#fff;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:13px}
-/* gallery: row-first so the first face portraits sit at the top on mobile */
+/* gallery: uniform 4:5 tiles, row-first, face-safe object-position */
 .gal{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(min-width:900px){.gal{grid-template-columns:repeat(4,1fr);gap:14px}}
-.gal a{display:block;margin:0;overflow:hidden}
-.gal img{width:100%;height:auto;transition:.4s;filter:saturate(.95)}
+.gal a{display:block;margin:0;overflow:hidden;aspect-ratio:4/5;background:#111}
+.gal img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;display:block;transition:.4s;filter:saturate(.95)}
 .gal a:hover img{transform:scale(1.03)}
 .lb{position:fixed;inset:0;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;z-index:90;padding:20px}
 .lb.on{display:flex}.lb img{max-height:90vh;max-width:100%;object-fit:contain}
@@ -414,9 +414,6 @@ html[lang=zh-CN] .qr-grid figcaption b,html[lang=zh] .qr-grid figcaption b{lette
 .fcontact a:hover{color:var(--acc2);border-color:var(--acc2)}
 
 /* show tab: modest CELLEON visual, not used in the gallery */
-.show-art{margin:28px auto 0;max-width:280px;text-align:center}
-.show-art img{width:100%;height:auto;display:block}
-.show-art figcaption{margin-top:10px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
 
 @media(prefers-reduced-motion:reduce){
   .hero-slide{transition:none}
