@@ -33,17 +33,29 @@ p{color:#d8d4cf}
 @media(min-width:1000px){.burger{display:none}.nav{display:flex;align-items:center}.top{padding:22px 40px}}
 /* hero: side composition on desktop so the portrait stays sharp; face kept in frame on mobile */
 .hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;border:0;padding:0;background:#0a0a0a}
-.hero picture,.hero picture img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 22%}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,.12) 30%,rgba(0,0,0,.45) 62%,#0a0a0a 100%)}
-.hero-in{position:relative;z-index:2;width:100%;padding:0 20px 72px}
+.hero-slides{position:absolute;inset:0}
+.hero-slide{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 1.6s ease;z-index:0;display:block}
+.hero-slide.on{opacity:1;z-index:1}
+.hero-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-slide.hs-vr img{object-position:50% 32%}
+.hero-slide.hs-gold img{object-position:50% 20%}
+.hero-slide.hs-candles img{object-position:50% 25%}
+.hero-slide.hs-hall img{object-position:30% 32%}
+.hero-slide.hs-glow img{object-position:50% 25%}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,.12) 30%,rgba(0,0,0,.45) 62%,#0a0a0a 100%);z-index:2;pointer-events:none}
+.hero-in{position:relative;z-index:3;width:100%;padding:0 20px 72px}
 .hero h1{font-size:clamp(48px,12vw,140px);font-weight:300;letter-spacing:.14em;line-height:.95;margin-left:-.04em;text-shadow:0 2px 28px rgba(0,0,0,.45)}
 .hero .role{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#eee;margin:16px 0 22px;font-weight:500}
 .hero blockquote{font-size:clamp(17px,2.2vw,22px);font-weight:300;font-style:italic;max-width:560px;color:#f0ece8;margin-bottom:30px;border-left:2px solid var(--acc);padding-left:16px}
 .hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
 @media(min-width:900px){
   .hero{align-items:center;background:#0b0b0b}
-  .hero picture{left:auto!important;right:0;width:64%}
-  .hero picture img{object-position:50% 28%}
+  .hero-slides{left:auto;right:0;width:64%}
+  .hero-slide.hs-vr img{object-position:50% 28%}
+  .hero-slide.hs-gold img{object-position:55% 22%}
+  .hero-slide.hs-candles img{object-position:50% 28%}
+  .hero-slide.hs-hall img{object-position:32% 35%}
+  .hero-slide.hs-glow img{object-position:50% 28%}
   .hero-in{padding:0 64px;max-width:1440px;margin:0 auto}
   .hero:after{background:linear-gradient(90deg,#0b0b0b 0%,#0b0b0b 34%,rgba(11,11,11,.55) 50%,rgba(11,11,11,0) 66%),linear-gradient(180deg,rgba(0,0,0,.28) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 78%,#0a0a0a 100%)}
   .hero h1{font-size:clamp(64px,8vw,128px);letter-spacing:.14em}
@@ -405,3 +417,7 @@ html[lang=zh-CN] .qr-grid figcaption b,html[lang=zh] .qr-grid figcaption b{lette
 .show-art{margin:28px auto 0;max-width:280px;text-align:center}
 .show-art img{width:100%;height:auto;display:block}
 .show-art figcaption{margin-top:10px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+
+@media(prefers-reduced-motion:reduce){
+  .hero-slide{transition:none}
+}

@@ -82,3 +82,17 @@
   lb.addEventListener('click',function(e){if(e.target===lb)lb.classList.remove('on')});
   document.addEventListener('keydown',function(e){if(!lb.classList.contains('on'))return;if(e.key==='Escape')lb.classList.remove('on');if(e.key==='ArrowLeft')show(i-1);if(e.key==='ArrowRight')show(i+1)});
 })();
+
+(function(){
+  var root=document.querySelector('.hero-slides');
+  if(!root) return;
+  var slides=[].slice.call(root.querySelectorAll('.hero-slide'));
+  if(slides.length<2) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var i=0, ms=parseInt(root.getAttribute('data-interval')||'6000',10);
+  setInterval(function(){
+    slides[i].classList.remove('on');
+    i=(i+1)%slides.length;
+    slides[i].classList.add('on');
+  }, ms);
+})();
