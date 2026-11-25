@@ -1,5 +1,5 @@
 /* Self-hosted fonts for the China-reachable build. Do not load Google Fonts. */
-@font-face{font-family:Montserrat;src:url("/assets/fonts/Montserrat.woff2") format("woff2");font-weight:200 700;font-style:normal;font-display:swap}
-@font-face{font-family:Montserrat;src:url("/assets/fonts/Montserrat-Italic.woff2") format("woff2");font-weight:200 700;font-style:italic;font-display:swap}
-@font-face{font-family:"Noto Sans SC";src:url("/assets/fonts/NotoSansSC-Regular.woff2") format("woff2");font-weight:300 500;font-style:normal;font-display:swap}
-@font-face{font-family:"Noto Sans SC";src:url("/assets/fonts/NotoSansSC-Bold.woff2") format("woff2");font-weight:600 700;font-style:normal;font-display:swap}
+@font-face{font-family:Montserrat;src:url("/assets/fonts/Montserrat.woff2?v=893d271680") format("woff2");font-weight:200 700;font-style:normal;font-display:swap}
+@font-face{font-family:Montserrat;src:url("/assets/fonts/Montserrat-Italic.woff2?v=94ae51aa86") format("woff2");font-weight:200 700;font-style:italic;font-display:swap}
+@font-face{font-family:"Noto Sans SC";src:url("/assets/fonts/NotoSansSC-Regular.woff2?v=5ccaa2f791") format("woff2");font-weight:300 500;font-style:normal;font-display:swap}
+@font-face{font-family:"Noto Sans SC";src:url("/assets/fonts/NotoSansSC-Bold.woff2?v=4a72961f39") format("woff2");font-weight:600 700;font-style:normal;font-display:swap}
