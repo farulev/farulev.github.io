@@ -293,3 +293,57 @@
   modal.addEventListener('click', function(e){ if(e.target===modal) closeModal(); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&modal.classList.contains('on')) closeModal(); });
 })();
+
+(function(){
+  var form=document.querySelector('.sub-form');
+  if(!form) return;
+  var email=form.querySelector('#sub-email');
+  var honey=form.querySelector('[name="_honey"]');
+  var btn=form.querySelector('button[type=submit]');
+  var ok=form.querySelector('.sub-ok');
+  var err=form.querySelector('.sub-err');
+  var ajax=form.getAttribute('data-ajax')||'';
+  function showOk(){
+    form.classList.add('is-sent');
+    if(err) err.hidden=true;
+    if(ok) ok.hidden=false;
+    if(email) email.blur();
+  }
+  function showErr(){
+    if(ok) ok.hidden=true;
+    if(err) err.hidden=false;
+    if(btn) btn.disabled=false;
+  }
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(form.classList.contains('is-sent')) return;
+    if(!email || !email.value.trim() || !email.checkValidity()){
+      if(email) email.reportValidity();
+      return;
+    }
+    if(err) err.hidden=true;
+    if(honey && honey.value){ showOk(); return; }
+    if(!ajax){ showErr(); return; }
+    if(btn) btn.disabled=true;
+    var body={
+      email:email.value.trim(),
+      _subject:'New FARULEV subscriber',
+      _captcha:'false',
+      _template:'table'
+    };
+    var ctrl=typeof AbortController==='function'?new AbortController():null;
+    var timer=setTimeout(function(){ if(ctrl) ctrl.abort(); }, 15000);
+    fetch(ajax, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(body),
+      signal:ctrl?ctrl.signal:undefined
+    }).then(function(r){
+      return r.json().then(function(d){ return {ok:r.ok, d:d}; }).catch(function(){ return {ok:r.ok, d:{}}; });
+    }).then(function(res){
+      var okFlag=res.d && (res.d.success===true || res.d.success==='true');
+      if(okFlag || res.ok) showOk();
+      else showErr();
+    }).catch(function(){ showErr(); }).then(function(){ clearTimeout(timer); });
+  });
+})();
