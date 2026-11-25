@@ -125,3 +125,171 @@
   var roots=document.querySelectorAll('.hero-slides, .about-slides');
   for(var r=0;r<roots.length;r++) boot(roots[r]);
 })();
+
+(function(){
+  var dataEl=document.getElementById('shop-data');
+  if(!dataEl) return;
+  var cfg;
+  try{ cfg=JSON.parse(dataEl.textContent); }catch(e){ return; }
+  var byId={};
+  (cfg.products||[]).forEach(function(p){ byId[p.id]=p; });
+  var chosen={};
+  (cfg.products||[]).forEach(function(p){
+    if(p.sizes&&p.sizes.length) chosen[p.id]=p.sizes.indexOf('M')>=0?'M':p.sizes[0];
+  });
+
+  function orderHref(p, sz){
+    var txt=(cfg.order_prefix||'Order: ')+p.name+(sz?' ('+sz+')':'')+' - '+p.price_fmt;
+    if(cfg.china){
+      return 'mailto:'+cfg.email+'?subject='+encodeURIComponent(txt)+'&body='+encodeURIComponent(txt+'\n');
+    }
+    return cfg.tg_base+'?text='+encodeURIComponent(txt);
+  }
+
+  function syncCard(id){
+    var p=byId[id];
+    if(!p) return;
+    var sz=chosen[id]||'';
+    document.querySelectorAll('.product[data-pid="'+id+'"]').forEach(function(card){
+      card.querySelectorAll('.sz').forEach(function(b){
+        var on=b.dataset.size===sz;
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-checked', on?'true':'false');
+      });
+      var tg=card.querySelector('.tg-order');
+      if(tg) tg.href=orderHref(p, sz);
+    });
+  }
+
+  document.addEventListener('click', function(e){
+    var szBtn=e.target.closest('.sz');
+    if(szBtn){
+      var host=szBtn.closest('[data-pid]');
+      if(host){
+        var id=host.dataset.pid;
+        chosen[id]=szBtn.dataset.size;
+        syncCard(id);
+        if(modal&&modal.classList.contains('on')&&modal.dataset.pid===id) renderModalSizes(id);
+      }
+      return;
+    }
+    var tab=e.target.closest('.stab');
+    if(tab){
+      var cat=tab.dataset.cat;
+      document.querySelectorAll('.stab').forEach(function(x){
+        var on=x===tab;
+        x.classList.toggle('on', on);
+        x.setAttribute('aria-selected', on?'true':'false');
+      });
+      document.querySelectorAll('.shop-grid .product').forEach(function(card){
+        var show=(cat==='all'||card.dataset.cat===cat);
+        card.hidden=!show;
+      });
+      return;
+    }
+    var openEl=e.target.closest('.p-open');
+    if(openEl){
+      var card=openEl.closest('.product');
+      if(card) openModal(card.dataset.pid);
+    }
+  });
+
+  // Product modal
+  var modal=document.querySelector('.pmodal');
+  if(!modal) return;
+  var mImg=modal.querySelector('.pm-main img');
+  var mThumbs=modal.querySelector('.pm-thumbs');
+  var mKicker=modal.querySelector('.pm-k');
+  var mTitle=modal.querySelector('.pm-title');
+  var mPrice=modal.querySelector('.pm-price');
+  var mColor=modal.querySelector('.pm-color');
+  var mDesc=modal.querySelector('.pm-desc');
+  var mSzWrap=modal.querySelector('.pm-sz-wrap');
+  var mSzList=modal.querySelector('.pm-sizes');
+  var mBuy=modal.querySelector('.pm-buy');
+  var mTg=modal.querySelector('.pm-tg');
+  var mNote=modal.querySelector('.pm-note');
+
+  function renderModalSizes(id){
+    var p=byId[id];
+    if(!p) return;
+    var sz=chosen[id]||'';
+    if(!p.sizes||!p.sizes.length){
+      mSzWrap.hidden=true;
+      mSzList.innerHTML='';
+    } else {
+      mSzWrap.hidden=false;
+      mSzList.innerHTML='';
+      p.sizes.forEach(function(s){
+        var b=document.createElement('button');
+        b.type='button';
+        b.className='sz'+(s===sz?' on':'');
+        b.dataset.size=s;
+        b.setAttribute('role','radio');
+        b.setAttribute('aria-checked',s===sz?'true':'false');
+        b.textContent=s;
+        mSzList.appendChild(b);
+      });
+    }
+    if(mTg&&!mTg.hidden) mTg.href=orderHref(p, sz);
+  }
+
+  function openModal(id){
+    var p=byId[id];
+    if(!p) return;
+    modal.dataset.pid=id;
+    var gal=(p.gallery&&p.gallery.length)?p.gallery:[p.img];
+    mImg.src=gal[0];
+    mImg.alt=p.alt||p.name;
+    mThumbs.innerHTML='';
+    if(gal.length>1){
+      mThumbs.hidden=false;
+      gal.forEach(function(src,idx){
+        var tb=document.createElement('button');
+        tb.type='button';
+        tb.className='pm-th'+(idx===0?' on':'');
+        tb.setAttribute('aria-label',(p.name||'')+' '+(idx+1));
+        var im=document.createElement('img');
+        im.src=src; im.alt='';
+        tb.appendChild(im);
+        tb.addEventListener('click',function(){
+          mImg.src=src;
+          mThumbs.querySelectorAll('.pm-th').forEach(function(x){x.classList.toggle('on',x===tb)});
+        });
+        mThumbs.appendChild(tb);
+      });
+    } else {
+      mThumbs.hidden=true;
+    }
+    mKicker.textContent=p.badge||cfg.kicker||'FARULEV';
+    mTitle.textContent=p.name;
+    mPrice.textContent=p.price_fmt;
+    mColor.textContent=p.color||'';
+    mColor.hidden=!p.color;
+    mDesc.textContent=p.desc;
+    if(p.buy_url){
+      mBuy.hidden=false;
+      mBuy.href=p.buy_url;
+      mBuy.textContent=cfg.buy_label;
+      mTg.className='btn xs tg-btn tg-order pm-tg';
+      mTg.textContent=cfg.tg_label;
+    } else {
+      mBuy.hidden=true;
+      mTg.className='btn acc xs tg-order pm-tg';
+      mTg.textContent=cfg.tg_label;
+    }
+    mNote.textContent=p.digital?(cfg.digital_note||''):(p.made_to_order?(cfg.mto_note||''):(cfg.delivery_note||''));
+    renderModalSizes(id);
+    modal.classList.add('on');
+    document.body.style.overflow='hidden';
+  }
+
+  function closeModal(){
+    modal.classList.remove('on');
+    document.body.style.overflow='';
+  }
+
+  modal.querySelector('.pm-close').addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&modal.classList.contains('on')) closeModal(); });
+})();
