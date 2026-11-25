@@ -269,3 +269,30 @@ html[lang=zh-CN] .qr-grid figcaption b,html[lang=zh] .qr-grid figcaption b{lette
 .qr-archive figcaption b{display:block;font-size:12px;letter-spacing:.08em;margin-bottom:3px;color:#ddd}
 .qr-archive figcaption span{font-size:12px;color:var(--mut)}
 .qr-grid figcaption small.old-acc,.qr-archive small.old-acc{display:block;margin-top:8px;font-size:12px;color:var(--mut);letter-spacing:.02em;line-height:1.55;font-weight:400}
+
+/* composer + listen */
+.projects{padding-top:8px}
+.vgrid.two{grid-template-columns:1fr}
+@media(min-width:800px){.vgrid.two{grid-template-columns:1fr 1fr;gap:32px}}
+.listen{background:linear-gradient(180deg,#0a0a0a,#100d0a 55%,#0a0a0a)}
+.player{display:flex;gap:18px;align-items:center;border:1px solid var(--line);padding:20px 22px;background:#12110f;border-radius:2px}
+.pplay{flex:0 0 56px;width:56px;height:56px;border:1.5px solid #fff;border-radius:50%;background:rgba(0,0,0,.45);cursor:pointer;position:relative}
+.pplay:before{content:"";position:absolute;left:50%;top:50%;width:0;height:0;border-style:solid;border-width:8px 0 8px 14px;border-color:transparent transparent transparent #fff;margin:-8px 0 0 -5px}
+.player.on .pplay:before{border:0;width:5px;height:16px;background:#fff;box-shadow:8px 0 0 #fff;margin:-8px 0 0 -6px;left:50%;top:50%}
+.pmeta{flex:1;min-width:0}
+.ptitle{display:block;font-size:16px;letter-spacing:.08em;margin-bottom:10px}
+.pbar{width:100%;accent-color:var(--acc);height:4px;cursor:pointer}
+.ptime{display:flex;justify-content:space-between;margin-top:6px;font-size:11px;letter-spacing:.12em;color:var(--mut)}
+.tracks{list-style:none;margin:26px 0 0;padding:0}
+.track{display:flex;gap:14px;align-items:center;padding:14px 4px;border-bottom:1px solid var(--line);cursor:pointer}
+.track:hover{color:#fff}
+.track.on b{color:var(--acc2)}
+.tplay{flex:0 0 36px;width:36px;height:36px;border:1px solid #3a3733;border-radius:50%;background:transparent;cursor:pointer;position:relative}
+.tplay:before{content:"";position:absolute;left:50%;top:50%;border-style:solid;border-width:6px 0 6px 10px;border-color:transparent transparent transparent currentColor;margin:-6px 0 0 -3px}
+.track.on .tplay{border-color:var(--acc)}
+.tmeta{min-width:0}
+.tmeta b{display:block;font-size:14px;letter-spacing:.06em}
+.tmeta span{display:block;font-size:12px;color:var(--mut);margin-top:3px}
+.tvid{margin-left:8px;letter-spacing:.12em;text-transform:uppercase;font-size:11px;color:var(--mut);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18)}
+.tvid:hover{color:#fff}
+@media(max-width:799px){.player{padding:16px}.pplay{flex-basis:48px;width:48px;height:48px}}
