@@ -19,6 +19,9 @@
     var v=w.querySelector('video'),b=w.querySelector('.svp');
     if(!v) return;
     v.controls=false;
+    v.playsInline=true;
+    v.setAttribute('playsinline','');
+    v.setAttribute('webkit-playsinline','');
     function start(){w.classList.add('on');v.controls=true;v.play()}
     if(b) b.addEventListener('click',start);
     v.addEventListener('play',function(){w.classList.add('on');v.controls=true});
@@ -32,7 +35,11 @@
   })});
   // Gallery: show more
   var mp=document.querySelector('.more-ph'),gl=document.querySelector('.gal');
-  if(mp&&gl){mp.addEventListener('click',function(){gl.classList.add('all');mp.remove()})}
+  if(mp&&gl){mp.addEventListener('click',function(){
+    var on=gl.classList.toggle('all');
+    mp.setAttribute('aria-expanded',on);
+    mp.textContent=on?(mp.dataset.less||mp.textContent):(mp.dataset.more||mp.textContent);
+  })}
   // Pause audio when a video starts
   document.querySelectorAll('.sv video').forEach(function(v){v.addEventListener('play',function(){var a=window.__farulevAudio;if(a)a.pause()})});
   // Listen player
