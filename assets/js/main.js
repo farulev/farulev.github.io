@@ -84,15 +84,44 @@
 })();
 
 (function(){
-  var root=document.querySelector('.hero-slides');
-  if(!root) return;
-  var slides=[].slice.call(root.querySelectorAll('.hero-slide'));
-  if(slides.length<2) return;
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var i=0, ms=parseInt(root.getAttribute('data-interval')||'6000',10);
-  setInterval(function(){
-    slides[i].classList.remove('on');
-    i=(i+1)%slides.length;
-    slides[i].classList.add('on');
-  }, ms);
+  function boot(root){
+    var slides=[].slice.call(root.querySelectorAll('picture'));
+    if(slides.length<2) return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) root.classList.add('no-fade');
+    var i=0, ms=parseInt(root.getAttribute('data-interval')||'6000',10);
+    var timer=null;
+    function load(el){
+      if(!el) return;
+      var imgs=el.querySelectorAll('img');
+      for(var k=0;k<imgs.length;k++){
+        imgs[k].loading='eager';
+        if(imgs[k].decode) imgs[k].decode().catch(function(){});
+      }
+    }
+    slides.forEach(load);
+    function go(){
+      var n=(i+1)%slides.length;
+      slides[i].classList.remove('on');
+      slides[n].classList.add('on');
+      i=n;
+      load(slides[(i+1)%slides.length]);
+    }
+    function stop(){ if(timer){clearInterval(timer);timer=null} }
+    function start(){ if(!timer) timer=setInterval(go, ms); }
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden) stop(); else start();
+    });
+    // Pause only when the block is off-screen; never wait on IO to start
+    // (a late or false-negative observer would freeze the first slide).
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(entries){
+        var on=entries[0].isIntersecting && !document.hidden;
+        if(on) start(); else stop();
+      }, {threshold:0.01});
+      io.observe(root);
+    }
+    if(!document.hidden) start();
+  }
+  var roots=document.querySelectorAll('.hero-slides, .about-slides');
+  for(var r=0;r<roots.length;r++) boot(roots[r]);
 })();
